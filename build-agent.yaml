@@ -24,7 +24,6 @@ spec:
           name: docker-sock
         - mountPath: /tmp/trivycache/
           name: trivycache
-    
     - name: kaniko
       image: gcr.io/kaniko-project/executor:v1.6.0-debug
       imagePullPolicy: Always
@@ -56,11 +55,10 @@ spec:
       hostPath:
         path: /tmp/trivycache/
     - name: jenkins-docker-cfg
-        projected:
+      projected:
         sources:
-    - secret:
-        name: regcred
-        items:
-        key: .dockerconfigjson
-        path: config.json
-
+        - secret:
+            name: regcred
+            items:
+             - key: .dockerconfigjson
+               path: config.json
