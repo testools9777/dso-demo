@@ -36,7 +36,7 @@ true, onlyIfSuccessful: true
 }
 }      
       }
-    }
+   
     stage('Static Analysis') {
       parallel {
         stage('Unit Tests') {
@@ -75,4 +75,5 @@ true, onlyIfSuccessful: true
       }
     }
   }
+}
 
