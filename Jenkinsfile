@@ -9,7 +9,7 @@ pipeline {
   stages {
     stage('Build') {
       parallel {
-        stage('Compile') {
+        stage('Generate BOM') {
           steps {
             container('maven') {
               sh 'mvn test'
@@ -21,7 +21,8 @@ pipeline {
 	container('maven') {
 	catchError(buildResult: 'SUCCESS', stageResult:
 	'FAILURE') {
-	sh 'mvn org.owasp:dependency-check-maven:check'
+	sh 'mvn org.cyclonedx:cyclonedx-maven-plugin:makeAggregateBom'
+
 	}
 	}
 	}
