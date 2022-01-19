@@ -17,21 +17,24 @@ pipeline {
           }
         }
 	stage('SCA') {
-steps {
-container('maven') {
-catchError(buildResult: 'SUCCESS', stageResult:
-'FAILURE') {
-sh 'mvn org.owasp:dependency-check-maven:check'
-}
-}
-}
-post {
-always {
+	steps {
+	container('maven') {
+	catchError(buildResult: 'SUCCESS', stageResult:
+	'FAILURE') {
+	sh 'mvn org.owasp:dependency-check-maven:check'
+	}
+	}
+	}
+	post {
+success {
+dependencyTrackPublisher projectName:
+'sample-spring-app', projectVersion: '0.0.1', artifact:
+'target/bom.xml', autoCreateProjects: true, synchronous: true
 archiveArtifacts allowEmptyArchive: true,
-artifacts: 'target/dependency-check-report.html', fingerprint:
-true, onlyIfSuccessful: true
-// dependencyCheckPublisher pattern: 'report.xml'
+artifacts: 'target/bom.xml', fingerprint: true,
+onlyIfSuccessful: true
 }
+
 }
 }
 }      
